@@ -35,5 +35,13 @@ target_link_libraries(warehouse_ros ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 add_executable(warehouse_test_dbloader src/test_dbloader.cpp)
 target_link_libraries(warehouse_test_dbloader warehouse_ros ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
-install(TARGETS warehouse_ros LIBRARY DESTINATION lib)
+if(WIN32)
+install(TARGETS warehouse_ros
+   RUNTIME DESTINATION lib
+    CONFIGURATIONS ${CMAKE_BUILD_TYPE}
+   ARCHIVE DESTINATION lib
+   LIBRARY DESTINATION lib)
+else()
+  install(TARGETS warehouse_ros LIBRARY DESTINATION lib)
+endif()
 install(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp")
